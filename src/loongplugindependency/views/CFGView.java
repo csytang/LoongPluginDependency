@@ -4,7 +4,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
 public class CFGView extends ViewPart {
-
+ 
 	public CFGView() {
 		// TODO Auto-generated constructor stub
 	}

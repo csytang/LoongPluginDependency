@@ -5,7 +5,10 @@ Bundle-SymbolicName: LoongPluginDependency;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: loongplugindependency.LoongDependency
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ LoongPlugin,
+ org.eclipse.jdt;bundle-version="3.10.1",
+ org.eclipse.jdt.core;bundle-version="3.10.2"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: org.chrisyttang
