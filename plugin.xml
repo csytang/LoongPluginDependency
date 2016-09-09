@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            name="Control Flow Graph"
+            icon="icons/controldependency.png"
+            category="LoongPlugin.viewcategory"
+            class="loongplugindependency.views.CFGView"
+            id="loongplugindependency.views.ControlView">
+      </view>
+      <category
+            id="LoongPlugin.viewcategory"
+            name="Loong">
+      </category>
+      <view
+            category="LoongPlugin.viewcategory"
+            class="loongplugindependency.views.DataView"
+            icon="icons/datadependency.png"
+            id="loongplugindependency.views.DataView"
+            name="Data Dependency Graph"
+            restorable="true">
+      </view>
+   </extension>
+
+</plugin>
