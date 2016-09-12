@@ -1,5 +1,6 @@
 package loongplugindependency.cfgmodel;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -31,9 +32,6 @@ public class CFGBuilder {
 			LElement subelement = aElementFactory.getElement(node);
 			CFGNode subelementCFGNode = new CFGNode(subelement);
 			
-			
-			
-			
 			lelementToCFGNode.put(subelement, subelementCFGNode);
 			allelements.add(subelement);
 			if(subelement.getCategory().equals(LICategories.METHOD))
@@ -55,12 +53,44 @@ public class CFGBuilder {
 			
 			methodToCFG.put(method, cfg);
 			
-			Statement start = cfg.getStart();
-			Statement end = cfg.getEnd();
 			
-			
+			Map<Statement, Set<Statement>> predecessors = cfg.getPredecessors();
+			Map<Statement, Set<Statement>> successors = cfg.getSuccessors();
+			 
+			 // Iterate predecessor set
+			 for(Map.Entry<Statement, Set<Statement>>entry:predecessors.entrySet()){
+				 Statement current = entry.getKey();
+				 Set<Statement> curr_predecessor = entry.getValue();
+				 LElement curr_element = this.aElementFactory.getElement(current);
+				 CFGNode curr_cfgNode = this.lelementToCFGNode.get(curr_element);
+				 Set<CFGNode> curr_predecessor_cfgNode = batchstatement_CFGNodeConvert(curr_predecessor);
+				 if(!curr_predecessor_cfgNode.isEmpty())
+					 curr_cfgNode.addPredecessor(curr_predecessor_cfgNode);
+			 }
+			 
+			 // Iterate successor set
+			 for(Map.Entry<Statement, Set<Statement>>entry:successors.entrySet()){
+				 Statement current = entry.getKey();
+				 Set<Statement> curr_successor = entry.getValue();
+				 LElement curr_element = this.aElementFactory.getElement(current);
+				 CFGNode curr_cfgNode = this.lelementToCFGNode.get(curr_element);
+				 Set<CFGNode> curr_successor_cfgNode = batchstatement_CFGNodeConvert(curr_successor);
+				 if(!curr_successor_cfgNode.isEmpty())
+					 curr_cfgNode.addSuccessor(curr_successor_cfgNode);
+			 }
 			
 		}
+	}
+	
+	public Set<CFGNode> batchstatement_CFGNodeConvert(Collection<Statement> astnodecollection){
+		Set<CFGNode> converted = new HashSet<CFGNode>();
+		for(Statement statement:astnodecollection){
+			LElement element = this.aElementFactory.getElement(statement);
+			CFGNode cfgNode = this.lelementToCFGNode.get(element);
+			converted.add(cfgNode);
+		}
+		
+		return converted;
 	}
 	
 }

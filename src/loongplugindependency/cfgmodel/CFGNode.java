@@ -23,11 +23,14 @@ public class CFGNode extends LElement{
 	public CFGNode(String pId, LICategories pcategory,
 			CLRAnnotatedSourceFile pColorSourceFile, ASTNode pastNode) {
 		super(pId, pcategory, pColorSourceFile, pastNode);
-		// TODO Auto-generated constructor stub
 		predecessorCFGNodes = new ArrayList<CFGNode>();
 		successorCFGNodes = new ArrayList<CFGNode>();
 	}
-	
+	public CFGNode(LElement element){
+		super(element.getId(),element.getCategory(),element.getCLRFile(),element.getASTNode());
+		predecessorCFGNodes = new ArrayList<CFGNode>();
+		successorCFGNodes = new ArrayList<CFGNode>();
+	}
 	///////////////////////////////////////////////////////
 	
 	
@@ -52,7 +55,9 @@ public class CFGNode extends LElement{
 	}
 	
 	
-	
+	public ArrayList<CFGNode> getSucessors(){
+		return this.successorCFGNodes;
+	}
 	
 	
 }

@@ -8,7 +8,7 @@
             name="Control Flow Graph"
             icon="icons/controldependency.png"
             category="LoongPlugin.viewcategory"
-            class="loongplugindependency.views.CFGView"
+            class="loongplugindependency.views.CFGViews.CFGView"
             id="loongplugindependency.views.ControlView">
       </view>
       <category
@@ -17,12 +17,25 @@
       </category>
       <view
             category="LoongPlugin.viewcategory"
-            class="loongplugindependency.views.DataView"
+            class="loongplugindependency.views.dataviews.DataView"
             icon="icons/datadependency.png"
             id="loongplugindependency.views.DataView"
             name="Data Dependency Graph"
             restorable="true">
       </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="LoongPluginDependency.resourceContribution"
+            objectClass="org.eclipse.core.resources.IResource">
+         <action
+               class="loongplugindependency.popup.actions.ControlFlowAction"
+               id="LoongPluginDependency.controlflow"
+               label="Create Control Flow View For this File">
+         </action>
+      </objectContribution>
    </extension>
 
 </plugin>

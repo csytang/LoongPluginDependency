@@ -1,11 +1,11 @@
-package loongplugindependency.views;
+package loongplugindependency.views.dataviews;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
-public class CFGView extends ViewPart {
- 
-	public CFGView() {
+public class DataView extends ViewPart {
+
+	public DataView() {
 		// TODO Auto-generated constructor stub
 	}
 

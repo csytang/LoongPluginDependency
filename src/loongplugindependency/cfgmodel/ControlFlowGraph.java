@@ -2,7 +2,7 @@ package loongplugindependency.cfgmodel;
 import java.util.*;
 import org.eclipse.jdt.core.dom.*;
 // inspired by source code from a compiler course by Robby
-class ControlFlowGraph {
+public class ControlFlowGraph {
 	/** the method which we build the control flow graph for */
 	final MethodDeclaration method;
 	/** maps a {@link Statement} to its predecessors */
@@ -43,6 +43,14 @@ class ControlFlowGraph {
 	}
 	public boolean isEmpty(){
 		return start==end;
+	}
+	
+	public Map<Statement, Set<Statement>> getPredecessors(){
+		return predecessors;
+	}
+	
+	public Map<Statement, Set<Statement>> getSuccessors(){
+		return successors;
 	}
 
 
