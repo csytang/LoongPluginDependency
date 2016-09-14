@@ -1,5 +1,6 @@
 package loongplugindependency.views.CFGViews;
 
+import loongplugindependency.cfgmodel.CFGModel;
 import loongplugindependency.cfgmodel.CFGNode;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -27,9 +28,21 @@ public class CFGContentProvider extends ArrayContentProvider  implements IGraphE
 		if(entity instanceof CFGNode){
 			CFGNode node = (CFGNode)entity;
 			return node.getSucessors().toArray();
+		}else if(entity instanceof CFGModel){
+			return null;
 		}
 	    throw new RuntimeException("Type not supported");
 
 	}
+
+	@Override
+	public Object[] getElements(Object inputElement) {
+		// TODO Auto-generated method stub
+		assert inputElement instanceof CFGModel;
+		CFGModel model = (CFGModel)inputElement;
+		return model.getInput();
+	}
+	
+	
 
 }

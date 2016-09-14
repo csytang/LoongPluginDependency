@@ -27,13 +27,14 @@
    <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
-            adaptable="false"
+            adaptable="true"
             id="LoongPluginDependency.resourceContribution"
             objectClass="org.eclipse.core.resources.IResource">
          <action
                class="loongplugindependency.popup.actions.ControlFlowAction"
                id="LoongPluginDependency.controlflow"
-               label="Create Control Flow View For this File">
+               label="Create Control Flow View For this File(LoongDependency)"
+               menubarPath="group.open">
          </action>
       </objectContribution>
    </extension>

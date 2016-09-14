@@ -10,11 +10,12 @@ public class CFGNodeLabelProvider extends LabelProvider{
 	public String getText(Object element) {
 		// TODO Auto-generated method stub
 		if(element instanceof CFGNode){
-			CFGNode node = (CFGNode) element;
-			return node.getASTID();
+			CFGNode node = (CFGNode)element;
+			return node.getContent();
 		}
-		throw new RuntimeException("Wrong type: "
-			        + element.getClass().toString());
+		return "";
 	}
+
+	
 	
 }

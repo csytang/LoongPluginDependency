@@ -1,15 +1,21 @@
 package loongplugindependency.cfgmodel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.Statement;
 
 import loongplugin.color.coloredfile.CLRAnnotatedSourceFile;
 import loongplugin.source.database.model.LElement;
 import loongplugin.source.database.model.LICategories;
 
-public class CFGNode extends LElement{
+public class CFGNode implements Serializable{
 
 	//////////////////////Fields///////////////////////////////
 	// Predecessors statements
@@ -18,18 +24,20 @@ public class CFGNode extends LElement{
 	// Successor statements
 	private ArrayList<CFGNode> successorCFGNodes;
 	
+	private Statement statement;
+	
+	private Set<LElement> associateelmenets; 
+	private Set<LElement> allLElements;
 	
 	/////////////////////Constructors////////////////////////
-	public CFGNode(String pId, LICategories pcategory,
-			CLRAnnotatedSourceFile pColorSourceFile, ASTNode pastNode) {
-		super(pId, pcategory, pColorSourceFile, pastNode);
+	
+	public CFGNode(Statement pstatement,Set<LElement> pallLElements){
+		this.statement = pstatement;
 		predecessorCFGNodes = new ArrayList<CFGNode>();
 		successorCFGNodes = new ArrayList<CFGNode>();
-	}
-	public CFGNode(LElement element){
-		super(element.getId(),element.getCategory(),element.getCLRFile(),element.getASTNode());
-		predecessorCFGNodes = new ArrayList<CFGNode>();
-		successorCFGNodes = new ArrayList<CFGNode>();
+		this.allLElements = pallLElements;
+		this.associateelmenets = new HashSet<LElement>();
+		computeassociatedLElements();
 	}
 	///////////////////////////////////////////////////////
 	
@@ -57,6 +65,30 @@ public class CFGNode extends LElement{
 	
 	public ArrayList<CFGNode> getSucessors(){
 		return this.successorCFGNodes;
+	}
+
+
+
+	public String getContent() {
+		// TODO Auto-generated method stub
+		return this.statement.toString();
+	}
+	
+	public void computeassociatedLElements(){
+		int startPos = statement.getStartPosition();
+		int length = statement.getLength();
+		int total = startPos+length;
+		for(LElement element:allLElements){
+			ASTNode node = element.getASTNode();
+			if(node!=null){
+				int nodestartPos = node.getStartPosition();
+				int nodeendPos = nodestartPos+node.getLength();
+				if(nodestartPos>=startPos && nodeendPos<=total){
+					associateelmenets.add(element);
+				}
+					
+			}
+		}
 	}
 	
 	

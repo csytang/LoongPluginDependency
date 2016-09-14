@@ -9,6 +9,7 @@ public class ControlFlowGraph {
 	final Map<Statement, Set<Statement>> predecessors;
 	/** maps a {@link Statement} to its successors */
 	final Map<Statement, Set<Statement>> successors;
+	final Set<Statement> statements;
 	/**
 	 * Holds the start {@link Statement} of the CFG. If the method body is empty
 	 * then, the start {@link Statement} is equal to the end {@link Statement}.
@@ -33,6 +34,7 @@ public class ControlFlowGraph {
 		successors = visitor.successors;
 		start = visitor.init;
 		end = visitor.last;
+		statements = visitor.statements;
 	}
 	public Statement getStart(){
 		return start;
@@ -43,6 +45,9 @@ public class ControlFlowGraph {
 	}
 	public boolean isEmpty(){
 		return start==end;
+	}
+	public Set<Statement>getStatement(){
+		return statements;
 	}
 	
 	public Map<Statement, Set<Statement>> getPredecessors(){
@@ -70,14 +75,20 @@ public class ControlFlowGraph {
 		//-- visitor methods
 		@SuppressWarnings("unchecked")
 		@Override public boolean visit(MethodDeclaration node) {
-			List statements = node.getBody().statements();
+			List<Statement> statements = node.getBody().statements();
 			last = node.getBody(); // use method's body as virtual last
+			
 			if (statements.size() == 0) {
 				init = last;
 				return false; // empty body
+			}else{
+				// update the last to the startpoint;
+				int size = statements.size();
+				last = statements.get(size-1);
 			}
+			
 			init = (Statement) statements.get(0);
-			addEdge(last(statements), last);
+			//addEdge(last(statements), last);
 			return true;
 		}
 		
@@ -467,6 +478,8 @@ public class ControlFlowGraph {
 		
 		private void addEdge(Statement s1, Statement s2) {
 			if (s1 instanceof ReturnStatement && s2 != last) {
+				return;
+			}else if(s1 == s2){
 				return;
 			}
 			statements.add(s1);
