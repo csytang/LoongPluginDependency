@@ -55,8 +55,7 @@ public class CFGBuilder{
 			ControlFlowGraph cfg = new ControlFlowGraph(methoddec);
 			for(Statement statement:cfg.getStatement()){
 				Set<ASTNode> statementASTNodes = ASTNodeWalker.allWalker(statement);
-				Set<LElement> pallLElements = convertToLELements(statementASTNodes);
-				CFGNode node = new CFGNode(statement,pallLElements);
+				CFGNode node = new CFGNode(statement);
 				
 				this.statementToCFGNode.put(statement, node);
 				this.inputs.add(node);

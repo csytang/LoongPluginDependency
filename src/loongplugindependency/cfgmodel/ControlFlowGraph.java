@@ -84,11 +84,10 @@ public class ControlFlowGraph {
 			}else{
 				// update the last to the startpoint;
 				int size = statements.size();
-				last = statements.get(size-1);
 			}
 			
 			init = (Statement) statements.get(0);
-			//addEdge(last(statements), last);
+			addEdge(last(statements), last);
 			return true;
 		}
 		
@@ -478,8 +477,6 @@ public class ControlFlowGraph {
 		
 		private void addEdge(Statement s1, Statement s2) {
 			if (s1 instanceof ReturnStatement && s2 != last) {
-				return;
-			}else if(s1 == s2){
 				return;
 			}
 			statements.add(s1);

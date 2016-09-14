@@ -1,6 +1,10 @@
 package loongplugindependency.cfgmodel;
 
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+
 import loongplugindependency.views.CFGViews.CFGModelChangedEvent;
+import loongplugindependency.views.CFGViews.CFGView;
 import loongplugindependency.views.CFGViews.ICFGModelChangeListener;
 
 public class CFGModel {
@@ -15,6 +19,12 @@ public class CFGModel {
 	public void setCFGModel(CFGBuilder pbuilder){
 		this.builder = pbuilder;
 		this.builder.build();
+		try {
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(CFGView.ID);
+		} catch (PartInitException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		notifyFeatureModelListener();
 	}
 	

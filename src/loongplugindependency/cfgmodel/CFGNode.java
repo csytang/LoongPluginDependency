@@ -26,18 +26,15 @@ public class CFGNode implements Serializable{
 	
 	private Statement statement;
 	
-	private Set<LElement> associateelmenets; 
-	private Set<LElement> allLElements;
+	
 	
 	/////////////////////Constructors////////////////////////
 	
-	public CFGNode(Statement pstatement,Set<LElement> pallLElements){
+	public CFGNode(Statement pstatement){
 		this.statement = pstatement;
 		predecessorCFGNodes = new ArrayList<CFGNode>();
 		successorCFGNodes = new ArrayList<CFGNode>();
-		this.allLElements = pallLElements;
-		this.associateelmenets = new HashSet<LElement>();
-		computeassociatedLElements();
+		
 	}
 	///////////////////////////////////////////////////////
 	
@@ -74,22 +71,7 @@ public class CFGNode implements Serializable{
 		return this.statement.toString();
 	}
 	
-	public void computeassociatedLElements(){
-		int startPos = statement.getStartPosition();
-		int length = statement.getLength();
-		int total = startPos+length;
-		for(LElement element:allLElements){
-			ASTNode node = element.getASTNode();
-			if(node!=null){
-				int nodestartPos = node.getStartPosition();
-				int nodeendPos = nodestartPos+node.getLength();
-				if(nodestartPos>=startPos && nodeendPos<=total){
-					associateelmenets.add(element);
-				}
-					
-			}
-		}
-	}
+	
 	
 	
 }
