@@ -1,15 +1,31 @@
 package loongplugindependency.cfgmodel;
+/**
+ * Copyright 2008 Anders Hessellund 
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at 
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0 
+ *     
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * $Id: ControlFlowGraph.java,v 1.1 2008/01/17 18:48:18 hessellund Exp $
+ */
 import java.util.*;
 import org.eclipse.jdt.core.dom.*;
 // inspired by source code from a compiler course by Robby
-public class ControlFlowGraph {
+class ControlFlowGraph {
 	/** the method which we build the control flow graph for */
 	final MethodDeclaration method;
 	/** maps a {@link Statement} to its predecessors */
 	final Map<Statement, Set<Statement>> predecessors;
 	/** maps a {@link Statement} to its successors */
 	final Map<Statement, Set<Statement>> successors;
-	final Set<Statement> statements;
 	/**
 	 * Holds the start {@link Statement} of the CFG. If the method body is empty
 	 * then, the start {@link Statement} is equal to the end {@link Statement}.
@@ -21,7 +37,7 @@ public class ControlFlowGraph {
 	 */
 	final Statement end;
 
-	public ControlFlowGraph(MethodDeclaration method) {
+	ControlFlowGraph(MethodDeclaration method) {
 		this.method = method;
 		Visitor visitor = new Visitor();
 		try {
@@ -34,30 +50,9 @@ public class ControlFlowGraph {
 		successors = visitor.successors;
 		start = visitor.init;
 		end = visitor.last;
-		statements = visitor.statements;
-	}
-	public Statement getStart(){
-		return start;
 	}
 	
-	public Statement getEnd(){
-		return end;
-	}
-	public boolean isEmpty(){
-		return start==end;
-	}
-	public Set<Statement>getStatement(){
-		return statements;
-	}
 	
-	public Map<Statement, Set<Statement>> getPredecessors(){
-		return predecessors;
-	}
-	
-	public Map<Statement, Set<Statement>> getSuccessors(){
-		return successors;
-	}
-
 
 	private static class Visitor extends ASTVisitor {
 		
@@ -75,17 +70,12 @@ public class ControlFlowGraph {
 		//-- visitor methods
 		@SuppressWarnings("unchecked")
 		@Override public boolean visit(MethodDeclaration node) {
-			List<Statement> statements = node.getBody().statements();
+			List statements = node.getBody().statements();
 			last = node.getBody(); // use method's body as virtual last
-			
 			if (statements.size() == 0) {
 				init = last;
 				return false; // empty body
-			}else{
-				// update the last to the startpoint;
-				int size = statements.size();
 			}
-			
 			init = (Statement) statements.get(0);
 			addEdge(last(statements), last);
 			return true;

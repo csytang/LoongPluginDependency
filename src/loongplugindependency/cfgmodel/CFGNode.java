@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.Statement;
 
 import loongplugin.color.coloredfile.CLRAnnotatedSourceFile;
@@ -24,18 +25,22 @@ public class CFGNode implements Serializable{
 	// Successor statements
 	private ArrayList<CFGNode> successorCFGNodes;
 	
-	private Statement statement;
+	private ASTNode astnode;
 	
-	
+	private String displayName;
 	
 	/////////////////////Constructors////////////////////////
 	
-	public CFGNode(Statement pstatement){
-		this.statement = pstatement;
+	public CFGNode(ASTNode pnode){
+		this.astnode = pnode;
 		predecessorCFGNodes = new ArrayList<CFGNode>();
 		successorCFGNodes = new ArrayList<CFGNode>();
+		this.displayName = pnode.toString();
+	}
+	public CFGNode(){
 		
 	}
+	
 	///////////////////////////////////////////////////////
 	
 	
@@ -68,8 +73,42 @@ public class CFGNode implements Serializable{
 
 	public String getContent() {
 		// TODO Auto-generated method stub
-		return this.statement.toString();
+		return this.astnode.toString();
 	}
+
+	public ASTNode getASTNode(){
+		return this.astnode;
+	}
+	
+	public boolean isSpecial(){
+		if(this instanceof CFGNodeSpecial){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		if(obj instanceof CFGNode){
+			CFGNode cfgnode = (CFGNode) obj;
+			if(cfgnode instanceof CFGNodeSpecial){
+				CFGNodeSpecial specialcfgnode = (CFGNodeSpecial)cfgnode;
+				if(this.isSpecial()){
+					return specialcfgnode.getContent().equals(this.getContent());
+				}else{
+					return false;
+				}
+			}
+			else if(cfgnode.getASTNode().equals(this.astnode)){
+				return true;
+			}else
+				return false;
+		}else{
+			return false;
+		}
+	}
+	
 	
 	
 	
